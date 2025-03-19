@@ -1,0 +1,98 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(16, 16, 16);
+    font-family: Montserrat;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    cursor: pointer;
+}
+
+.quote-machine{
+    background-color: rgb(50, 50, 50);
+    height: 80vh;
+    width: 90vw;
+    margin-top: 5%;
+    border-radius: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote-box{
+    height: 40.5vh;
+    width: 60vw;
+    background-color: rgb(243, 243, 243);
+    border-radius: 2%;
+    display: flex;
+    gap: 13px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.inner-quote-box{
+    width: fit-content;
+    height: 15vh;
+    margin-top: 9%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.quote{
+    color: rgb(94, 92, 92);
+    text-align: center;
+    /* background-color: rgba(127, 255, 212, 0.781); */
+    /* background-color: rgb(226, 226, 226); */
+    font-size: 2rem;
+    font-weight: bold;
+    height: fit-content;
+    width: 55vw;
+}
+
+.quote-speaker{
+    margin-left: auto;
+    font-size: 1.1rem;
+    padding-right: 1%;
+}
+
+
+/* .new-quote{
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: rgb(119, 197, 252);
+    border: 1px solid rgb(119, 197, 252);
+    border-radius: 5%;
+    margin-top: 20%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 3em;
+    padding-left: 3em;
+}  */
+
+.left-button{
+    height: 20vh;
+    border-top-left-radius: 15px;  /* Adjust the radius value */
+    border-bottom-left-radius: 15px;
+    padding: 1%;
+}
+
+.right-button{
+    height: 20vh;
+    border-top-right-radius: 15px;  /* Adjust the radius value */
+    border-bottom-right-radius: 15px;
+    padding: 1%;
+}
