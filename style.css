@@ -85,14 +85,45 @@ button{
 
 .left-button{
     height: 20vh;
+    width: 4vw;
     border-top-left-radius: 15px;  /* Adjust the radius value */
     border-bottom-left-radius: 15px;
-    padding: 1%;
+    background-color: rgba(243, 243, 243, 0.412);
+    margin-right: 0.2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.left-button:hover{
+    background-color: rgb(119, 197, 251);
+    transition: 0.2s ease-in-out;
 }
 
 .right-button{
     height: 20vh;
-    border-top-right-radius: 15px;  /* Adjust the radius value */
+    width: 4vw;
     border-bottom-right-radius: 15px;
-    padding: 1%;
+    border-top-right-radius: 15px;
+    background-color: rgba(243, 243, 243, 0.412);
+    margin-left: 0.2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
+
+.right-button:hover{
+    background-color: rgb(119, 197, 251);
+    transition: 0.2s ease-in-out;
+}
+
+.side-icon{
+    opacity: 0.5;
+}
+
+.side-icon:hover{
+    opacity: 1;
+}
+
