@@ -4,7 +4,26 @@ const sideIcon = document.querySelectorAll('.side-icon');
 const quoteText = document.querySelector('.quote');
 const quoteSpeaker = document.querySelector('.quote-speaker');
 
-// Object with quotes
+// Function to change opacity of icons on hover
+function changeOpacity() {
+    sideIcon.forEach(button => {
+        button.style.opacity = 1;
+    });
+}
+
+// Reset opacity when mouse leaves
+function resetOpacity() {
+    sideIcon.forEach(button => {
+        button.style.opacity = 0.5;
+    });
+}
+
+rightButton.addEventListener("mouseover", changeOpacity);
+leftButton.addEventListener("mouseover", changeOpacity);
+rightButton.addEventListener("mouseleave", resetOpacity);
+leftButton.addEventListener("mouseleave", resetOpacity);
+
+// Quotes array
 const quotes = [
     { quote: "The first step is to establish that something is possible; then probability will occur.", speaker: "Elon Musk" },
     { quote: "Persistence is very important. You should not give up unless you are forced to give up.", speaker: "Elon Musk" },
@@ -28,25 +47,46 @@ const quotes = [
     { quote: "It is not death that a man should fear, but he should fear never beginning to live.", speaker: "Marcus Aurelius" }
 ];
 
-// function to change opacity of icons on hover of their side buttons
-function changeOpacity() {
-    sideIcon.forEach(button => {
-        button.style.opacity = 1;
-    });
+let currentIndex = 0;
+
+// Function to display a quote
+function displayQuote(index) {
+    quoteText.textContent = `"${quotes[index].quote}"`;
+    quoteSpeaker.textContent = `~${quotes[index].speaker}`;
 }
 
-rightButton.addEventListener("mouseover", changeOpacity);
-leftButton.addEventListener("mouseover", changeOpacity);
-
-// Function to automatically go thrpugh the quotes and display randomly
-function changeQuotes() {
-    const randomQuote = Math.floor(Math.random() * quotes.length);
-    quoteText.textContent = `"${quotes[randomQuote].quote}"`; 
-    quoteSpeaker.textContent = `~ ${quotes[randomQuote].speaker}`; 
+// Function to display the next quote
+function nextQuote() {
+    currentIndex = (currentIndex + 1) % quotes.length;
+    displayQuote(currentIndex);
+    resetAutoChange();
 }
 
-// Call function immediately so first quote appears
-changeQuotes();
+// Function to display the previous quote
+function prevQuote() {
+    currentIndex = (currentIndex - 1 + quotes.length) % quotes.length;
+    displayQuote(currentIndex);
+    resetAutoChange();
+}
 
-// Change quote every 5 seconds
-setInterval(changeQuotes, 8000);
+// Function to automatically change quotes
+function autoChange() {
+    nextQuote();
+}
+
+// Start auto-change every 8 seconds
+let quoteInterval = setInterval(autoChange, 8000);
+
+// Function to reset auto-change when a button is clicked
+function resetAutoChange() {
+    clearInterval(quoteInterval);
+    quoteInterval = setInterval(autoChange, 8000);
+}
+
+// Add event listeners
+rightButton.addEventListener("click", nextQuote);
+leftButton.addEventListener("click", prevQuote);
+
+// Display first quote on load
+displayQuote(currentIndex);
+
