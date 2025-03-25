@@ -3,6 +3,8 @@ const rightButton = document.querySelector('.right-button');
 const sideIcon = document.querySelectorAll('.side-icon');
 const quoteText = document.querySelector('.quote');
 const quoteSpeaker = document.querySelector('.quote-speaker');
+const quoteBox = document.querySelector('.quote-box');
+const socialButtons = document.querySelector('.social-buttons');
 
 // Function to change opacity of icons on hover
 function changeOpacity() {
@@ -22,6 +24,22 @@ rightButton.addEventListener("mouseover", changeOpacity);
 leftButton.addEventListener("mouseover", changeOpacity);
 rightButton.addEventListener("mouseleave", resetOpacity);
 leftButton.addEventListener("mouseleave", resetOpacity);
+
+
+// Social Buttons functions
+function showSocialButtons() {
+        socialButtons.style.visibility = 'visible'
+}
+
+function hideSocialButtons() {
+        socialButtons.style.visibility = 'hidden'
+}
+
+[quoteSpeaker, quoteBox, quoteText, socialButtons].forEach(element => {
+    element.addEventListener('mouseover', showSocialButtons);
+    element.addEventListener('mouseleave', hideSocialButtons);
+});
+
 
 // Quotes array
 const quotes = [
@@ -46,6 +64,8 @@ const quotes = [
     { quote: "The soul becomes dyed with the colour of its thoughts.", speaker: "Marcus Aurelius" },
     { quote: "It is not death that a man should fear, but he should fear never beginning to live.", speaker: "Marcus Aurelius" }
 ];
+
+
 
 let currentIndex = 0;
 
@@ -89,4 +109,3 @@ leftButton.addEventListener("click", prevQuote);
 
 // Display first quote on load
 displayQuote(currentIndex);
-
