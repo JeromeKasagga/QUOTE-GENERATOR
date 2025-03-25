@@ -8,6 +8,7 @@ const socialButtons = document.querySelector('.social-buttons');
 const selectedText = document.querySelector('.inner-quote-box');
 const copyButton = document.querySelector('#copy-btn');
 const likeButton = document.querySelector('#like-btn');
+const shareButton = document.querySelector('#share-btn');
 
 // Function to change opacity of icons on hover
 function changeOpacity() {
@@ -132,3 +133,26 @@ likeButton.addEventListener('click', () => {
 
 // Display first quote on load
 displayQuote(currentIndex);
+
+if (navigator.share) {
+    console.log('its supported');
+} else {
+    console.log('not supported');
+}
+
+// Share Functionality
+shareButton.addEventListener('click', () => {
+    const textToShare = `${quoteText.textContent} - ${quoteSpeaker.textContent}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'Manly Quote',
+            text: textToShare,
+            url: window.location.href
+        })
+        .then(() => console.log('Quote shared successfully'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+        alert("Sharing is not supported on this browser.");
+    }
+});
