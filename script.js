@@ -5,6 +5,9 @@ const quoteText = document.querySelector('.quote');
 const quoteSpeaker = document.querySelector('.quote-speaker');
 const quoteBox = document.querySelector('.quote-box');
 const socialButtons = document.querySelector('.social-buttons');
+const selectedText = document.querySelector('.inner-quote-box');
+const copyButton = document.querySelector('#copy-btn');
+
 
 // Function to change opacity of icons on hover
 function changeOpacity() {
@@ -40,6 +43,11 @@ function hideSocialButtons() {
     element.addEventListener('mouseleave', hideSocialButtons);
 });
 
+// Function to copy to clip board
+copyButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(selectedText.textContent);
+    alert('Text copied');
+});
 
 // Quotes array
 const quotes = [
