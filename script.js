@@ -7,7 +7,7 @@ const quoteBox = document.querySelector('.quote-box');
 const socialButtons = document.querySelector('.social-buttons');
 const selectedText = document.querySelector('.inner-quote-box');
 const copyButton = document.querySelector('#copy-btn');
-
+const likeButton = document.querySelector('#like-btn');
 
 // Function to change opacity of icons on hover
 function changeOpacity() {
@@ -28,25 +28,19 @@ leftButton.addEventListener("mouseover", changeOpacity);
 rightButton.addEventListener("mouseleave", resetOpacity);
 leftButton.addEventListener("mouseleave", resetOpacity);
 
-
 // Social Buttons functions
 function showSocialButtons() {
-        socialButtons.style.visibility = 'visible'
-}
-
-function hideSocialButtons() {
-        socialButtons.style.visibility = 'hidden'
+    socialButtons.style.visibility = 'visible';
 }
 
 [quoteSpeaker, quoteBox, quoteText, socialButtons].forEach(element => {
     element.addEventListener('mouseover', showSocialButtons);
-    element.addEventListener('mouseleave', hideSocialButtons);
 });
 
-// Function to copy to clip board
+// Function to copy to clipboard
 copyButton.addEventListener('click', () => {
     navigator.clipboard.writeText(selectedText.textContent);
-    alert('Text copied');
+    alert('Quote copied');
 });
 
 // Quotes array
@@ -56,11 +50,11 @@ const quotes = [
     { quote: "I think it is possible for ordinary people to choose to be extraordinary.", speaker: "Elon Musk" },
     { quote: "People work better when they know what the goal is and why. It is important that people look forward to coming to work in the morning and enjoy working.", speaker: "Elon Musk" },
     { quote: "When something is important enough, you do it even if the odds are not in your favor.", speaker: "Elon Musk" },
-    { quote: "Pay attention to negative feedback and solicit it, particularly from friends. Hardly anyone does that, and it’s incredibly helpful.", speaker: "Elon Musk" },
-    { quote: "Some people don’t like change, but you need to embrace change if the alternative is disaster.", speaker: "Elon Musk" },
+    { quote: "Pay attention to negative feedback and solicit it, particularly from friends. Hardly anyone does that, and it's incredibly helpful.", speaker: "Elon Musk" },
+    { quote: "Some people don't like change, but you need to embrace change if the alternative is disaster.", speaker: "Elon Musk" },
     { quote: "Managers should always take care of their team before they take care of themselves. The supervisor is there to serve his team — not the other way round.", speaker: "Elon Musk" },
     { quote: "Failure is an option here. If things are not failing, you are not innovating enough.", speaker: "Elon Musk" },
-    { quote: "I don’t create companies for the sake of creating companies, but to get things done.", speaker: "Elon Musk" },
+    { quote: "I don't create companies for the sake of creating companies, but to get things done.", speaker: "Elon Musk" },
     { quote: "You have power over your mind - not outside events. Realize this, and you will find strength.", speaker: "Marcus Aurelius" },
     { quote: "Dwell on the beauty of life. Watch the stars, and see yourself running with them.", speaker: "Marcus Aurelius" },
     { quote: "The happiness of your life depends upon the quality of your thoughts.", speaker: "Marcus Aurelius" },
@@ -73,27 +67,37 @@ const quotes = [
     { quote: "It is not death that a man should fear, but he should fear never beginning to live.", speaker: "Marcus Aurelius" }
 ];
 
-
-
 let currentIndex = 0;
+
+// Function to update like button appearance
+function updateLikeButtonStatus() {
+    const isLiked = localStorage.getItem(`likedQuote-${currentIndex}`) === 'true';
+    if (isLiked) {
+        likeButton.classList.add('liked');
+        likeButton.style.color = 'rgb(119, 197, 251)';
+    } else {
+        likeButton.classList.remove('liked');
+        likeButton.style.color = '';
+    }
+}
 
 // Function to display a quote
 function displayQuote(index) {
+    currentIndex = index;
     quoteText.textContent = `"${quotes[index].quote}"`;
     quoteSpeaker.textContent = `~${quotes[index].speaker}`;
+    updateLikeButtonStatus();
 }
 
 // Function to display the next quote
 function nextQuote() {
-    currentIndex = (currentIndex + 1) % quotes.length;
-    displayQuote(currentIndex);
+    displayQuote((currentIndex + 1) % quotes.length);
     resetAutoChange();
 }
 
 // Function to display the previous quote
 function prevQuote() {
-    currentIndex = (currentIndex - 1 + quotes.length) % quotes.length;
-    displayQuote(currentIndex);
+    displayQuote((currentIndex - 1 + quotes.length) % quotes.length);
     resetAutoChange();
 }
 
@@ -114,6 +118,17 @@ function resetAutoChange() {
 // Add event listeners
 rightButton.addEventListener("click", nextQuote);
 leftButton.addEventListener("click", prevQuote);
+
+// Like button functionality
+likeButton.addEventListener('click', () => {
+    const isLiked = localStorage.getItem(`likedQuote-${currentIndex}`) === 'true';
+    if (isLiked) {
+        localStorage.removeItem(`likedQuote-${currentIndex}`);
+    } else {
+        localStorage.setItem(`likedQuote-${currentIndex}`, 'true');
+    }
+    updateLikeButtonStatus();
+});
 
 // Display first quote on load
 displayQuote(currentIndex);
