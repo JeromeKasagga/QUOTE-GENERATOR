@@ -1,6 +1,9 @@
-const leftButton = document.querySelector('.left-button');
-const rightButton = document.querySelector('.right-button');
-const sideIcon = document.querySelectorAll('.side-icon');
+// DOM Elements
+const desktopLeftBtn = document.querySelector('.desktop-nav.left-button');
+const desktopRightBtn = document.querySelector('.desktop-nav.right-button');
+const mobileLeftBtn = document.querySelector('.mobile-button.left-button');
+const mobileRightBtn = document.querySelector('.mobile-button.right-button');
+const sideIcons = document.querySelectorAll('.side-icon');
 const quoteText = document.querySelector('.quote');
 const quoteSpeaker = document.querySelector('.quote-speaker');
 const quoteBox = document.querySelector('.quote-box');
@@ -12,22 +15,23 @@ const shareButton = document.querySelector('#share-btn');
 
 // Function to change opacity of icons on hover
 function changeOpacity() {
-    sideIcon.forEach(button => {
-        button.style.opacity = 1;
+    sideIcons.forEach(icon => {
+        icon.style.opacity = 1;
     });
 }
 
 // Reset opacity when mouse leaves
 function resetOpacity() {
-    sideIcon.forEach(button => {
-        button.style.opacity = 0.5;
+    sideIcons.forEach(icon => {
+        icon.style.opacity = 0.5;
     });
 }
 
-rightButton.addEventListener("mouseover", changeOpacity);
-leftButton.addEventListener("mouseover", changeOpacity);
-rightButton.addEventListener("mouseleave", resetOpacity);
-leftButton.addEventListener("mouseleave", resetOpacity);
+// Add hover effects to desktop buttons
+[desktopLeftBtn, desktopRightBtn].forEach(btn => {
+    btn.addEventListener("mouseover", changeOpacity);
+    btn.addEventListener("mouseleave", resetOpacity);
+});
 
 // Social Buttons functions
 function showSocialButtons() {
@@ -40,8 +44,8 @@ function showSocialButtons() {
 
 // Function to copy to clipboard
 copyButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(selectedText.textContent);
-    alert('Quote copied');
+    navigator.clipboard.writeText(selectedText.textContent.trim());
+    alert('Quote copied to clipboard');
 });
 
 // Quotes array
@@ -69,90 +73,77 @@ const quotes = [
 ];
 
 let currentIndex = 0;
+let quoteInterval;
 
 // Function to update like button appearance
 function updateLikeButtonStatus() {
     const isLiked = localStorage.getItem(`likedQuote-${currentIndex}`) === 'true';
-    if (isLiked) {
-        likeButton.classList.add('liked');
-        likeButton.style.color = 'rgb(119, 197, 251)';
-    } else {
-        likeButton.classList.remove('liked');
-        likeButton.style.color = '';
-    }
+    likeButton.classList.toggle('liked', isLiked);
+    likeButton.style.color = isLiked ? 'rgb(119, 197, 251)' : '';
 }
 
 // Function to display a quote
 function displayQuote(index) {
     currentIndex = index;
-    quoteText.textContent = `"${quotes[index].quote}"`;
-    quoteSpeaker.textContent = `~${quotes[index].speaker}`;
+    const { quote, speaker } = quotes[index];
+    quoteText.textContent = `"${quote}"`;
+    quoteSpeaker.textContent = `~${speaker}`;
     updateLikeButtonStatus();
 }
 
-// Function to display the next quote
+// Navigation functions
 function nextQuote() {
     displayQuote((currentIndex + 1) % quotes.length);
     resetAutoChange();
 }
 
-// Function to display the previous quote
 function prevQuote() {
     displayQuote((currentIndex - 1 + quotes.length) % quotes.length);
     resetAutoChange();
 }
 
-// Function to automatically change quotes
-function autoChange() {
-    nextQuote();
+// Auto-change functionality
+function startAutoChange() {
+    quoteInterval = setInterval(nextQuote, 8000);
 }
 
-// Start auto-change every 8 seconds
-let quoteInterval = setInterval(autoChange, 8000);
-
-// Function to reset auto-change when a button is clicked
 function resetAutoChange() {
     clearInterval(quoteInterval);
-    quoteInterval = setInterval(autoChange, 8000);
+    startAutoChange();
 }
 
-// Add event listeners
-rightButton.addEventListener("click", nextQuote);
-leftButton.addEventListener("click", prevQuote);
+// Event listeners for navigation
+[desktopRightBtn, mobileRightBtn].forEach(btn => btn.addEventListener("click", nextQuote));
+[desktopLeftBtn, mobileLeftBtn].forEach(btn => btn.addEventListener("click", prevQuote));
 
 // Like button functionality
 likeButton.addEventListener('click', () => {
-    const isLiked = localStorage.getItem(`likedQuote-${currentIndex}`) === 'true';
-    if (isLiked) {
-        localStorage.removeItem(`likedQuote-${currentIndex}`);
-    } else {
-        localStorage.setItem(`likedQuote-${currentIndex}`, 'true');
-    }
+    const key = `likedQuote-${currentIndex}`;
+    const isLiked = localStorage.getItem(key) === 'true';
+    localStorage.setItem(key, String(!isLiked));
     updateLikeButtonStatus();
 });
 
-// Display first quote on load
-displayQuote(currentIndex);
-
-if (navigator.share) {
-    console.log('its supported');
-} else {
-    console.log('not supported');
-}
-
-// Share Functionality
+// Share functionality
 shareButton.addEventListener('click', () => {
-    const textToShare = `${quoteText.textContent} - ${quoteSpeaker.textContent}`;
+    const shareData = {
+        title: 'Inspiring Quote',
+        text: `${quoteText.textContent} ${quoteSpeaker.textContent}`,
+        url: window.location.href
+    };
 
     if (navigator.share) {
-        navigator.share({
-            title: 'Manly Quote',
-            text: textToShare,
-            url: window.location.href
-        })
-        .then(() => console.log('Quote shared successfully'))
-        .catch((error) => console.log('Error sharing:', error));
+        navigator.share(shareData)
+            .then(() => console.log('Shared successfully'))
+            .catch(err => console.log('Error sharing:', err));
     } else {
-        alert("Sharing is not supported on this browser.");
+        // Fallback for browsers that don't support Web Share API
+        navigator.clipboard.writeText(shareData.text)
+            .then(() => alert('Quote copied to clipboard. You can now share it manually.'))
+            .catch(() => alert('Sharing not supported. Please copy the text manually.'));
     }
 });
+
+// Initialize
+displayQuote(currentIndex);
+startAutoChange();

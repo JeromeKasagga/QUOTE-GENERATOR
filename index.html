@@ -1,46 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Random Quote Generator</title>
 </head>
-
 <body>
     <div class="quote-machine">
-
-        <div class="left-button">
-            <i class="fa-solid fa-arrow-left fa-2xl side-icon"></i>
+        <!-- Desktop Left Button -->
+        <div class="desktop-nav left-button">
+            <i class="fas fa-arrow-left side-icon"></i>
         </div>
 
         <div class="quote-box">
             <div class="inner-quote-box">
-                <div class="quote">
-                    <!-- <p>“When something is important enough, you do it even if the odds are not in your favor.”</p> -->
+                <div class="quote"></div>
+                <div class="quote-speaker"></div>
+            </div>
+            
+            <!-- Mobile Navigation Buttons -->
+            <div class="mobile-nav-buttons">
+                <div class="mobile-button left-button">
+                    <i class="fas fa-arrow-left side-icon"></i>
                 </div>
-                <div class="quote-speaker">
-                    <h5>~ </h5>
+                <div class="mobile-button right-button">
+                    <i class="fas fa-arrow-right side-icon"></i>
                 </div>
             </div>
         </div>
 
-        <div class="right-button">
-            <i class="fa-solid fa-arrow-right fa-2xl side-icon"></i>
+        <!-- Desktop Right Button -->
+        <div class="desktop-nav right-button">
+            <i class="fas fa-arrow-right side-icon"></i>
         </div>
 
-        <!-- Social Buttons Container -->
+        <!-- Social Buttons -->
         <div class="social-buttons">
-            <i class="fa-solid fa-copy social-icon" id="copy-btn" title="Copy"></i>
-            <i class="fa-solid fa-heart social-icon" id="like-btn" title="Like"></i>
-            <i class="fa-solid fa-share social-icon" id="share-btn" title="Share"></i>
+            <i class="fas fa-copy social-icon" id="copy-btn" title="Copy"></i>
+            <i class="fas fa-heart social-icon" id="like-btn" title="Like"></i>
+            <i class="fas fa-share social-icon" id="share-btn" title="Share"></i>
         </div>
-
     </div>
 
-    <script src="https://kit.fontawesome.com/b029b5f76f.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
-
 </html>
