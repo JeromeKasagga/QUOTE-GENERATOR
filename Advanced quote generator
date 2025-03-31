@@ -1,5 +1,4 @@
-# Quote Generator
-
+# Advanced Quote Generator
 
 A responsive web application that displays inspirational quotes with elegant animations and interactive features. Users can navigate through quotes, like their favorites, copy quotes to clipboard, and share them.
 
@@ -27,4 +26,4 @@ No installation required! Simply open `index.html` in any modern web browser.
 For development:
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/quote-generator.git
+   git clone https://github.com/JeromeKasagga/quote-generator.git
